@@ -61,11 +61,12 @@ const getStudentById = async(req, res)=>{
 const createStudent = async(req, res)=>{
     try{
         const {name, branch, email} = req.body;
+        console.log(req.body);
         if(!name || !branch || !email){
             return res.status(500).send({
                 success:false,
                 message:'Please Provide All Fields'
-            })
+            });
         }
         const data =  await db.query("INSERT INTO STUDENT (name, branch, email) Values (?,?,?)",[name,branch,email]);
         if(!data){
@@ -74,6 +75,10 @@ const createStudent = async(req, res)=>{
                 message:'Error in INSERT QUERY',
             })
         }
+        res.status(201).send({
+            sucess:true,
+            message:'New Student Record Added',
+        })
     }catch(error){
         console.log(error)
         res.status(500).send({

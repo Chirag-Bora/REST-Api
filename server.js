@@ -2,8 +2,10 @@ const express  = require("express");
 const authRoute = require('./src/Routes/authRoutes')
 const app = express();
 
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); 
 app.use("/api/student",authRoute);
+
 
 app.get("/", (req, res)=>{
     res.status(200).send("<h1>Node js  Mysql App</h2>");
