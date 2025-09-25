@@ -1,6 +1,6 @@
 const db = require("../config/db");
 
-// All Student Data
+// All Student Data  || GET
 const studentData = async (req, res)=>{
     try{
         const data  =  await db.query("SELECT * FROM student")
@@ -25,7 +25,7 @@ const studentData = async (req, res)=>{
     }
 }
 
-//Get Student by Id
+//Get Student by Id  || POST
 const getStudentById = async(req, res)=>{
     try{
         const studentId = req.params.id
@@ -57,7 +57,7 @@ const getStudentById = async(req, res)=>{
     }
 }
 
-//Create Student 
+//Create Student || POST
 const createStudent = async(req, res)=>{
     try{
         const {name, branch, email} = req.body;
@@ -89,7 +89,7 @@ const createStudent = async(req, res)=>{
     }
 }
 
-//Update student data
+//Update student data || PUT
 const updateStudent = async (req,res)=>{
   try{
     const studentId = req.body.id;
@@ -122,4 +122,30 @@ const updateStudent = async (req,res)=>{
     })
   }
 }
-module.exports = {studentData,getStudentById, createStudent, updateStudent};
+
+//DELETE DATA || DELETE
+const deleteStudent = async (req,res)=>{
+    try {
+        const studentId = req.params.id;
+        if(!studentId){
+            return res.status(404).send({
+                success:false,
+                message:'Please provide student id',
+            })
+        }
+        await db.query('DELETE FROM student WHERE id=?',[studentId])
+        res.status(200).send({
+            success:true,
+            message:'Student Deleted Successfully'
+        })       
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            success:false,
+            message:'Error in delete student api',
+            error
+        })        
+    }
+}
+
+module.exports = {studentData,getStudentById, createStudent, updateStudent,deleteStudent};
