@@ -57,7 +57,7 @@ const getStudentById = async(req, res)=>{
     }
 }
 
-
+//Create Student 
 const createStudent = async(req, res)=>{
     try{
         const {name, branch, email} = req.body;
@@ -88,4 +88,38 @@ const createStudent = async(req, res)=>{
         })
     }
 }
-module.exports = {studentData,getStudentById, createStudent};
+
+//Update student data
+const updateStudent = async (req,res)=>{
+  try{
+    const studentId = req.body.id;
+    if(!studentId){
+        return res.status(404).send({
+            success:false,
+            message:'Invalid Id or provide id'
+        });
+    }
+    const {name, branch, email } = req.body;
+    const data = await db.query('UPDATE student SET name = ?, branch = ?, email = ? WHERE id=?',[name, branch, email,studentId]);
+    if(!data){
+        return res.status(500).send({
+            success:false,
+            message:'Error in Update data'
+        })
+    }
+    res.status(200).send({
+        success:true,
+        message: 'Student Details Updated ',
+        data
+    })
+
+  }catch(error){
+    console.log(error);
+    res.status(500).send({
+        success: false,
+        message:'Error in update data',
+        error
+    })
+  }
+}
+module.exports = {studentData,getStudentById, createStudent, updateStudent};
