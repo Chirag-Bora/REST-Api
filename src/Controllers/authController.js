@@ -1,7 +1,7 @@
 const db = require("../config/db");
 
 // All Student Data  || GET
-const studentData = async (req, res)=>{
+exports.studentData = async (req, res)=>{
     try{
         const data  =  await db.query("SELECT * FROM student")
         if(!data){
@@ -26,7 +26,7 @@ const studentData = async (req, res)=>{
 }
 
 //Get Student by Id  || POST
-const getStudentById = async(req, res)=>{
+exports.getStudentById = async(req, res)=>{
     try{
         const studentId = req.params.id
         console.log(studentId);
@@ -58,7 +58,7 @@ const getStudentById = async(req, res)=>{
 }
 
 //Create Student || POST
-const createStudent = async(req, res)=>{
+exports.createStudent = async(req, res)=>{
     try{
         const {name, branch, email} = req.body;
         console.log(req.body);
@@ -90,7 +90,7 @@ const createStudent = async(req, res)=>{
 }
 
 //Update student data || PUT
-const updateStudent = async (req,res)=>{
+exports.updateStudent = async (req,res)=>{
   try{
     const studentId = req.body.id;
     if(!studentId){
@@ -124,7 +124,7 @@ const updateStudent = async (req,res)=>{
 }
 
 //DELETE DATA || DELETE
-const deleteStudent = async (req,res)=>{
+exports.deleteStudent = async (req,res)=>{
     try {
         const studentId = req.params.id;
         if(!studentId){
@@ -147,5 +147,3 @@ const deleteStudent = async (req,res)=>{
         })        
     }
 }
-
-module.exports = {studentData,getStudentById, createStudent, updateStudent,deleteStudent};
